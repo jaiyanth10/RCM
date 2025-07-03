@@ -59,7 +59,7 @@ const DiscussionsComponent: React.FC<DiscussionsComponentProps> = ({
   };
 
   // Render a specific element by ID
-  const renderElement = (elementId: string) => {
+  const renderElement = (elementId: string, index: number) => {
     if (!isElementEnabled(elementId)) return null;
     
     // Find the component element definition
@@ -69,30 +69,34 @@ const DiscussionsComponent: React.FC<DiscussionsComponentProps> = ({
     
     const ElementComponent = elementDef.component;
     
+    // Generate a unique key by combining the elementId with an index
+    // This ensures unique keys even when multiple instances of the same element type are rendered
+    const uniqueKey = `${elementId}-${index}`;
+    
     switch (elementId) {
       case 'heading':
-        return <Heading text={headingText} key={elementId} />;
+        return <Heading text={headingText} key={uniqueKey} />;
         
       case 'textbox':
-        return <TextBox value={discussionText} onChange={setDiscussionText} key={elementId} />;
+        return <TextBox value={discussionText} onChange={setDiscussionText} key={uniqueKey} />;
         
       case 'addButton':
         return (
-          <div className="mt-4" key={elementId}>
+          <div className="mt-4" key={uniqueKey}>
             <AddButton onClick={handleAddDiscussion} />
           </div>
         );
         
       case 'discussionsList':
         return (
-          <div className="mt-6" key={elementId}>
+          <div className="mt-6" key={uniqueKey}>
             <DiscussionsList discussions={discussions} onDelete={handleDeleteDiscussion} />
           </div>
         );
         
       // For any additional elements, render the component with default props
       default:
-        return <ElementComponent key={elementId} />;
+        return <ElementComponent key={uniqueKey} />;
     }
   };
 
@@ -100,7 +104,7 @@ const DiscussionsComponent: React.FC<DiscussionsComponentProps> = ({
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">
-      {elementsToRender.map(elementId => renderElement(elementId))}
+      {elementsToRender.map((elementId, index) => renderElement(elementId, index))}
     </div>
   );
 };
