@@ -11,7 +11,7 @@ import DiscussionsList from './reusable/discussions/DiscussionsList';
 
 const ComponentRegistry: React.FC = () => {
   const { registerComponent } = useContext(ConfigContext);
-  
+
   useEffect(() => {
     // Create elements for the Discussions component
     const headingElement = createComponentElement(
@@ -19,25 +19,25 @@ const ComponentRegistry: React.FC = () => {
       Heading as React.ComponentType,
       true // optional
     );
-    
+
     const textboxElement = createComponentElement(
       'Text Box',
       TextBox as React.ComponentType,
       false // required
     );
-    
+
     const addButtonElement = createComponentElement(
       'Add Button',
       AddButton as React.ComponentType,
       false // required
     );
-    
+
     const discussionsListElement = createComponentElement(
       'Discussions List',
       DiscussionsList as React.ComponentType,
       false // required
     );
-    
+
     // Register the Discussions component
     const discussionsComponent = createComponent(
       'Discussions',
@@ -50,20 +50,20 @@ const ComponentRegistry: React.FC = () => {
         discussionsListElement
       ]
     );
-    
+
     // Hard-code the component ID for our demo
     Object.assign(discussionsComponent, { id: 'discussions' });
-    
-    // Hard-code the element IDs for our demo
+
+    // changing the id of each child element to fixed id's for demo purposes
     Object.assign(headingElement, { id: 'heading' });
     Object.assign(textboxElement, { id: 'textbox' });
     Object.assign(addButtonElement, { id: 'addButton' });
     Object.assign(discussionsListElement, { id: 'discussionsList' });
-    
+
     // Register the component with the context
     registerComponent(discussionsComponent);
   }, [registerComponent]);
-  
+
   return null;
 };
 

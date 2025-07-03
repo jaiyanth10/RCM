@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import Configuration from '../components/config-ui/Configuration';
+// import Configuration from '../components/config-ui/Configuration';
 
 const Layout: React.FC = () => {
-  const [isConfigOpen, setIsConfigOpen] = useState(false);
+  // const [isConfigOpen, setIsConfigOpen] = useState(true);
   
   return (
     <div className="flex flex-col min-h-screen">
@@ -37,11 +37,11 @@ const Layout: React.FC = () => {
       </main>
       
       {/* Configuration Panel */}
-      {isConfigOpen && (
+      {/* {isConfigOpen && (
         <div className="fixed inset-0  backdrop-blur-xs z-40 flex items-center justify-center">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="p-4 border-b flex justify-between items-center">
-              <h2 className="text-xl font-bold">Configuration Panel</h2>
+              <h2 className="text-xl font-bold text-red-500">Configuration Panel</h2>
               <button 
                 className="text-gray-500 hover:text-gray-700" 
                 onClick={() => setIsConfigOpen(false)}
@@ -54,7 +54,7 @@ const Layout: React.FC = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
