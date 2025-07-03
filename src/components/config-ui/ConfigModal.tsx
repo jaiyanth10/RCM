@@ -54,7 +54,16 @@ const ConfigModal: React.FC<ConfigModalProps> = ({ componentId, pageId, onClose 
   
   const handleAddElement = () => {
     if (selectedElementToAdd) {
-      addElement(selectedElementToAdd, selectedPositionElement);
+      // Extract the actual element ID from the position element if it's an additional element
+      let positionElement = selectedPositionElement;
+      
+      // If the position element ID is from an additional element (has the format 'id-additional-X')
+      // Extract the base element ID
+      if (positionElement && positionElement.includes('-additional-')) {
+        positionElement = positionElement.split('-additional-')[0];
+      }
+      
+      addElement(selectedElementToAdd, positionElement);
       setSelectedElementToAdd('');
       setSelectedPositionElement('');
       // Force re-render to update the UI
@@ -70,8 +79,30 @@ const ConfigModal: React.FC<ConfigModalProps> = ({ componentId, pageId, onClose 
   
   // Get all visible elements (both default and additional)
   const getVisibleElements = () => {
-    // Return all elements including optional ones
-    return component.elements;
+    // Get the base elements
+    const baseElements = component.elements;
+    
+    // Get additional elements that have been added (may include duplicates of base elements)
+    const additionalElementIds = config.additionalElements || [];
+    
+    // Start with all base elements
+    const result: typeof baseElements = [...baseElements];
+    
+    // Add additional elements that have been added
+    additionalElementIds.forEach((elementId, index) => {
+      const element = baseElements.find(e => e.id === elementId);
+      if (element) {
+        // Create a copy of the element with a unique ID for the dropdown
+        const additionalElement = {
+          ...element,
+          id: `${elementId}-additional-${index}`, // Ensure unique ID
+          name: `${element.name} (Added ${index + 1})` // Show as "Added" in dropdown
+        };
+        result.push(additionalElement);
+      }
+    });
+    
+    return result;
   };
   
   return (
