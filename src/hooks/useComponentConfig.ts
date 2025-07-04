@@ -29,10 +29,10 @@ export const useComponentConfig = (componentId: string, pageId: string) => {
           ...component.elements.map(element => ({
             id: element.id,          // Use base ID for default elements
             type: element.id,
-            enabled: !element.isOptional // Optional elements start disabled
+            enabled: !element.isOptional, // Optional elements start disabled
+            value: element.id === 'heading' ? 'Discussions' : undefined // Default value for headings
           }))
-        ],
-        headingTexts: {} // Initialize empty heading texts
+        ]
       };
       
       updateConfig(initialConfig);
@@ -80,21 +80,19 @@ export const useComponentConfig = (componentId: string, pageId: string) => {
   
   // Update heading text for a specific element
   const updateHeadingText = (elementId: string, text: string) => {
-    const updatedConfig = {
-      ...config,
-      headingTexts: {
-        ...config.headingTexts || {},
-        [elementId]: text
-      }
-    };
-    
+    const updatedConfig = { ...config };
+    const element = updatedConfig.elements.find(el => el.id === elementId);
+    if (element) {
+      element.value = text;
+    }
     updateConfig(updatedConfig);
     return updatedConfig;
   };
   
   // Get heading text for a specific element
   const getHeadingText = (elementId: string): string => {
-    return config.headingTexts?.[elementId] || 'Discussions';
+    const element = config.elements.find(el => el.id === elementId);
+    return element?.value || 'Discussions';
   };
   
   // Add an element after a specific position
@@ -114,7 +112,8 @@ export const useComponentConfig = (componentId: string, pageId: string) => {
     const newElement: ConfigElement = {
       id: newId,
       type: elementType,
-      enabled: true
+      enabled: true,
+      value: elementType === 'heading' ? 'Discussions' : undefined
     };
     
     // Find the position to insert the new element

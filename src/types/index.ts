@@ -22,6 +22,7 @@ export interface ConfigElement {
   id: string;       // Unique ID for this specific element instance
   type: string;     // Base type of element (matching one of the component's element IDs)
   enabled: boolean; // Whether this element is enabled
+  value?: string;   // Optional value for elements that need it (like headings)
 }
 
 // Configuration for a specific instance of a component
