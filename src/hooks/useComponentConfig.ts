@@ -60,7 +60,7 @@ export const useComponentConfig = (componentId: string, pageId: string) => {
   const config = existingConfig || {
     componentId,
     pageId,
-    elements: [],
+    elements: [] as ConfigElement[],
     headingText: 'Discussions'
   };
   
