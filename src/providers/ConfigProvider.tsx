@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import type { ComponentConfig, ReusableComponent } from '../types';
+import type { ComponentConfig, ReusableComponent, ConfigElement } from '../types';
 import { saveToStorage, loadFromStorage } from '../utils/storage';
 import { ConfigContext } from './ConfigContext';
+import { generateId } from '../utils/registry';
 
 const STORAGE_KEY = 'rcm_configurations';
 
@@ -9,15 +10,80 @@ interface ConfigProviderProps {
   children: React.ReactNode;
 }
 
+// Helper function to migrate old configurations to new format
+interface LegacyConfig {
+  componentId: string;
+  pageId: string;
+  elementOrder?: string[];
+  additionalElements?: Array<{ id: string; [key: string]: unknown }>;
+  disabledElements?: string[];
+  headingText?: string;
+  headingTexts?: Record<string, string>;
+  elements?: ConfigElement[];
+}
+
+// Type guard to check if a config is in the legacy format
+const isLegacyConfig = (config: LegacyConfig | ComponentConfig): config is LegacyConfig => {
+  return 'elementOrder' in config || 'additionalElements' in config || 'disabledElements' in config || 'headingText' in config;
+};
+
+const migrateConfigIfNeeded = (config: LegacyConfig | ComponentConfig): ComponentConfig => {
+  // Check if config uses old format
+  if (isLegacyConfig(config)) {
+    const elements: ConfigElement[] = [];
+    
+    // First add all base elements from elementOrder (if exists)
+    if (Array.isArray(config.elementOrder)) {
+      elements.push(
+        ...config.elementOrder.map((elementId: string) => ({
+          id: `${elementId}-${generateId()}`,
+          type: elementId,
+          enabled: Array.isArray(config.disabledElements) 
+            ? !config.disabledElements.includes(elementId)
+            : true
+        }))
+      );
+    }
+    
+    // Then add all additional elements (if exists)
+    if (Array.isArray(config.additionalElements)) {
+      elements.push(
+        ...config.additionalElements.map((additionalElement: { id: string }) => ({
+          id: `${additionalElement.id}-${generateId()}`,
+          type: additionalElement.id,
+          enabled: true
+        }))
+      );
+    }
+    
+    // Return new config format
+    return {
+      componentId: config.componentId,
+      pageId: config.pageId,
+      elements: elements,
+      headingTexts: {
+        ...config.headingTexts,
+        // If there's an old headingText, assign it to the first heading element
+        ...(config.headingText ? { 'heading': config.headingText } : {})
+      }
+    };
+  }
+  
+  // Already using new format
+  return config;
+};
+
 export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
   const [components, setComponents] = useState<ReusableComponent[]>([]);
   const [configurations, setConfigurations] = useState<ComponentConfig[]>([]);
 
   // Load configurations from storage on initial mount
   useEffect(() => {
-    const savedConfigs = loadFromStorage<ComponentConfig[]>(STORAGE_KEY);
+    const savedConfigs = loadFromStorage<(LegacyConfig | ComponentConfig)[]>(STORAGE_KEY);
     if (savedConfigs) {
-      setConfigurations(savedConfigs);
+      // Migrate configurations to new format if needed
+      const migratedConfigs = savedConfigs.map(migrateConfigIfNeeded);
+      setConfigurations(migratedConfigs);
     }
   }, []);
 
@@ -30,9 +96,11 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
 
   // Register a new component
   const registerComponent = useCallback((component: ReusableComponent) => {
+    console.log('Registering component:', component);
     setComponents(prevComponents => {
       // Check if component already exists
       const exists = prevComponents.some(c => c.id === component.id);
+      console.log('Component exists?', exists, 'Current components:', prevComponents);
       if (exists) return prevComponents;
       return [...prevComponents, component];
     });

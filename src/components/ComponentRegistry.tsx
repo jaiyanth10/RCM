@@ -13,6 +13,7 @@ const ComponentRegistry: React.FC = () => {
   const { registerComponent } = useContext(ConfigContext);
 
   useEffect(() => {
+    console.log('ComponentRegistry initializing...');
     // Create elements for the Discussions component
     const headingElement = createComponentElement(
       'Heading',
@@ -62,6 +63,7 @@ const ComponentRegistry: React.FC = () => {
 
     // Register the component with the context
     registerComponent(discussionsComponent);
+    console.log('Registered discussions component:', discussionsComponent);
   }, [registerComponent]);
 
   return null;

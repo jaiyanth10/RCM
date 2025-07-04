@@ -8,7 +8,8 @@ This is a demo of the Reusable Components Manager (RCM) system, which allows for
 - Per-Page Configuration: Configure components differently for each page
 - Configuration UI: Manage components through a visual interface
 - Element Toggle: Enable/disable specific elements of components
-- Additional Elements: Add extra instances of elements to components
+- Element Ordering: Reorder elements as needed
+- Element Insertion: Add elements at specific positions in the component structure
 
 ## Getting Started
 
@@ -29,7 +30,23 @@ This is a demo of the Reusable Components Manager (RCM) system, which allows for
 3. Click on "Configuration" in the footer to open the configuration panel
 4. Expand the "Discussions" component to see where it's being used
 5. Click "Configure" for either Page 1 or Page 2 to modify that specific instance
-6. Toggle elements on/off or add additional elements as needed
+6. Toggle elements on/off, add elements at specific positions, or remove elements as needed
+
+## Configuration Model
+
+Each component instance is configured using a single array of elements, where each element has:
+
+- `id`: A unique ID for the specific element instance
+- `type`: The base element type (matching one of the component's element IDs)
+- `enabled`: Whether this element is currently enabled
+
+This unified approach allows for:
+
+1. Simple ordering of elements (the array order determines rendering order)
+2. Easy toggling of elements via the enabled flag
+3. Adding multiple instances of the same element type
+4. Precise positioning when adding new elements
+
 ## Project Structure
 
 ```

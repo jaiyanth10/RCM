@@ -17,14 +17,19 @@ export interface ReusableComponent {
   elements: ComponentElement[];
 }
 
+// Simplified element in a configuration
+export interface ConfigElement {
+  id: string;       // Unique ID for this specific element instance
+  type: string;     // Base type of element (matching one of the component's element IDs)
+  enabled: boolean; // Whether this element is enabled
+}
+
 // Configuration for a specific instance of a component
 export interface ComponentConfig {
   componentId: string;
   pageId: string;
-  disabledElements: string[];  // IDs of elements that should be disabled
-  additionalElements: string[];  // IDs of elements that were added
-  elementOrder?: string[];  // Optional order of elements for custom positioning
-  headingText?: string;     // Custom heading text
+  elements: ConfigElement[];  // Ordered list of elements with their states
+  headingTexts?: Record<string, string>;  // Custom heading texts per element
 }
 
 // Context types for our configuration provider

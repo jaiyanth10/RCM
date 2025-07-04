@@ -19,7 +19,12 @@ const DiscussionsComponent: React.FC<DiscussionsComponentProps> = ({
 }) => {
   const [discussionText, setDiscussionText] = useState('');
   const [discussions, setDiscussions] = useState<Discussion[]>([]);
-  const { isElementEnabled, getHeadingText, config, component } = useComponentConfig(componentId, pageId);
+  const { 
+    isElementEnabled, 
+    getHeadingText, 
+    component,
+    getElementsToRender 
+  } = useComponentConfig(componentId, pageId);
 
   const handleAddDiscussion = () => {
     if (!discussionText.trim()) return;
@@ -38,44 +43,29 @@ const DiscussionsComponent: React.FC<DiscussionsComponentProps> = ({
     setDiscussions(discussions.filter(d => d.id !== id));
   };
 
-  // Get the custom heading text from config, or fall back to prop or default
-  const headingText = getHeadingText() || title;
-  
-  // Determine the order of elements to render
-  const getElementsToRender = () => {
-    if (!component) return [];
-    
-    // If we have a custom order defined, use that
-    if (config.elementOrder && config.elementOrder.length > 0) {
-      return config.elementOrder;
-    }
-    
-    // Otherwise use default order plus additionals at the end
-    const defaultOrder = component.elements.map(e => e.id);
-    const additionalElements = (config.additionalElements || [])
-      .filter(id => !defaultOrder.includes(id));
-    
-    return [...defaultOrder, ...additionalElements];
-  };
-
   // Render a specific element by ID
   const renderElement = (elementId: string, index: number) => {
     if (!isElementEnabled(elementId)) return null;
     
+    // Extract the base element type from the ID (e.g., "heading-1" -> "heading")
+    const elementType = elementId.includes('-') 
+      ? elementId.split('-')[0] 
+      : elementId;
+    
     // Find the component element definition
     if (!component) return null;
-    const elementDef = component.elements.find(e => e.id === elementId);
+    const elementDef = component.elements.find(e => e.id === elementType);
     if (!elementDef) return null;
     
     const ElementComponent = elementDef.component;
     
-    // Generate a unique key by combining the elementId with an index
-    // This ensures unique keys even when multiple instances of the same element type are rendered
+    // Generate a unique key
     const uniqueKey = `${elementId}-${index}`;
     
-    switch (elementId) {
+    // Render the appropriate element based on its type
+    switch (elementType) {
       case 'heading':
-        return <Heading text={headingText} key={uniqueKey} />;
+        return <Heading text={getHeadingText(elementId) || title} key={uniqueKey} />;
         
       case 'textbox':
         return <TextBox value={discussionText} onChange={setDiscussionText} key={uniqueKey} />;
@@ -100,6 +90,7 @@ const DiscussionsComponent: React.FC<DiscussionsComponentProps> = ({
     }
   };
 
+  // Get the ordered list of elements to render
   const elementsToRender = getElementsToRender();
 
   return (
