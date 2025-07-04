@@ -206,7 +206,6 @@ const ConfigModal: React.FC<ConfigModalProps> = ({ componentId, pageId, onClose 
             </div>
           </div>
 
-          {/* No separate heading configuration section needed anymore */}
         </div>
       </div>
     </div>
