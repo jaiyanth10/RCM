@@ -1,10 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
 import type { ReusableComponent, ComponentElement } from '../types';
 
-// Generate unique ID for components and elements
+// makes unique ids
 export const generateId = (): string => uuidv4();
 
-// Helper to create a component element definition
+// creates a new building block for components
 export const createComponentElement = (
   name: string,
   component: React.ComponentType,
@@ -16,7 +16,7 @@ export const createComponentElement = (
   isOptional
 });
 
-// Helper to create a component definition
+// puts together a complete reusable component
 export const createComponent = (
   name: string,
   description: string,

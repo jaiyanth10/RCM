@@ -43,11 +43,11 @@ const DiscussionsComponent: React.FC<DiscussionsComponentProps> = ({
     setDiscussions(discussions.filter(d => d.id !== id));
   };
 
-  // Render a specific element by ID
+  // create and show a piece of the discussion component
   const renderElement = (elementId: string, index: number) => {
     if (!isElementEnabled(elementId)) return null;
     
-    // Extract the base element type from the ID (e.g., "heading-1" -> "heading")
+    // strip any numbers from id (heading-1 -> heading)
     const elementType = elementId.includes('-') 
       ? elementId.split('-')[0] 
       : elementId;

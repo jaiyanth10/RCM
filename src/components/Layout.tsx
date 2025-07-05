@@ -1,13 +1,11 @@
-// import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-// import Configuration from '../components/config-ui/Configuration';
 
 const Layout: React.FC = () => {
   // const [isConfigOpen, setIsConfigOpen] = useState(true);
   
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Fixed Header */}
+      {/* top navigation bar */}
       <header className="bg-blue-600 text-white shadow-md fixed top-0 left-0 right-0 z-10">
         <div className="container-fluid px-4 py-3 flex justify-between items-center">
           <h1 className="text-2xl font-bold">RCM Demo</h1>

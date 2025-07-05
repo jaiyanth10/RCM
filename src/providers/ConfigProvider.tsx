@@ -10,7 +10,7 @@ interface ConfigProviderProps {
   children: React.ReactNode;
 }
 
-// Helper function to migrate old configurations to new format
+// handles upgrading old settings to new format
 interface LegacyConfig {
   componentId: string;
   pageId: string;
@@ -22,7 +22,7 @@ interface LegacyConfig {
   elements?: ConfigElement[];
 }
 
-// Type guard to check if a config is in the legacy format
+// check if we need to upgrade this config
 const isLegacyConfig = (config: LegacyConfig | ComponentConfig): config is LegacyConfig => {
   return 'elementOrder' in config || 'additionalElements' in config || 'disabledElements' in config || 'headingText' in config;
 };

@@ -1,6 +1,4 @@
-/**
- * Saves data to local storage
- */
+// browser storage helper functions
 export const saveToStorage = <T,>(key: string, data: T): void => {
   try {
     const serialized = JSON.stringify(data);
@@ -9,10 +7,6 @@ export const saveToStorage = <T,>(key: string, data: T): void => {
     console.error('Error saving to local storage:', error);
   }
 };
-
-/**
- * Loads data from local storage
- */
 export const loadFromStorage = <T,>(key: string): T | null => {
   try {
     const serialized = localStorage.getItem(key);

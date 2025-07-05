@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-// Define the structure of a component element (sub-component)
+// sub-component building block 
 export interface ComponentElement {
   id: string;
   name: string;
@@ -8,7 +8,7 @@ export interface ComponentElement {
   isOptional: boolean;
 }
 
-// Define the structure of a reusable component
+// complete reusable component with its sub-components
 export interface ReusableComponent {
   id: string;
   name: string;
@@ -17,40 +17,39 @@ export interface ReusableComponent {
   elements: ComponentElement[];
 }
 
-// Simplified element in a configuration
 export interface ConfigElement {
-  id: string;       // Unique ID for this specific element instance
-  type: string;     // Base type of element (matching one of the component's element IDs)
-  enabled: boolean; // Whether this element is enabled
-  value?: string;   // Optional value for elements that need it (like headings)
+  id: string;
+  type: string;     
+  enabled: boolean; 
+  value?: string;   // stores custom text for things like headings
 }
 
-// Configuration for a specific instance of a component
+// how a component is set up on a specific page
 export interface ComponentConfig {
   componentId: string;
   pageId: string;
-  elements: ConfigElement[];  // Ordered list of elements with their states
-  headingTexts?: Record<string, string>;  // Custom heading texts per element
+  elements: ConfigElement[];  // list of enabled/disabled parts
+  headingTexts?: Record<string, string>;  // custom heading text
 }
 
-// Context types for our configuration provider
+// all the tools for managing components
 export interface ConfigContextType {
   components: ReusableComponent[];
   configurations: ComponentConfig[];
   registerComponent: (component: ReusableComponent) => void;
   updateConfig: (config: ComponentConfig) => void;
   getConfigForComponent: (componentId: string, pageId: string) => ComponentConfig | undefined;
-  getComponentUsage: (componentId: string) => string[];  // Returns list of page IDs where component is used
+  getComponentUsage: (componentId: string) => string[];  // where is this component used
 }
 
-// Props for components that use the configuration context
+// props needed to configure a component
 export interface WithConfigProps {
   componentId: string;
   pageId: string;
   children?: ReactNode;
 }
 
-// Page definition
+// basic page info
 export interface Page {
   id: string;
   name: string;

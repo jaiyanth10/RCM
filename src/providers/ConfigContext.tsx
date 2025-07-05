@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import type { ConfigContextType } from '../types';
 
-// Create context with default values
+// shared space for component settings
 export const ConfigContext = createContext<ConfigContextType>({
   components: [],
   configurations: [],

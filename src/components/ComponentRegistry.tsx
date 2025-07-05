@@ -2,7 +2,6 @@ import { useContext, useEffect } from 'react';
 import { ConfigContext } from '../providers/ConfigContext';
 import { createComponent, createComponentElement } from '../utils/registry';
 
-// Import component and its elements
 import DiscussionsComponent from './reusable/discussions/DiscussionsComponent';
 import Heading from './reusable/discussions/Heading';
 import TextBox from './reusable/discussions/TextBox';
@@ -14,17 +13,17 @@ const ComponentRegistry: React.FC = () => {
 
   useEffect(() => {
     console.log('ComponentRegistry initializing...');
-    // Create elements for the Discussions component
+    // set up all the parts we need for discussions
     const headingElement = createComponentElement(
       'Heading',
       Heading as React.ComponentType,
-      true // optional
+      true // can be turned off
     );
 
     const textboxElement = createComponentElement(
       'Text Box',
       TextBox as React.ComponentType,
-      false // required
+      false // always shown
     );
 
     const addButtonElement = createComponentElement(

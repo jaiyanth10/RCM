@@ -12,14 +12,14 @@ export const useComponentConfig = (componentId: string, pageId: string) => {
   
   const { getConfigForComponent, updateConfig, components } = context;
   
-  // Get component definition
+  // find the component we want to configure
   const component = components.find(c => c.id === componentId);
   
-  // Get the current configuration for this component instance
+  // grab any existing config for this instance
   const existingConfig = getConfigForComponent(componentId, pageId);
   
   useEffect(() => {
-    // Only create initial config if we have the component and haven't initialized yet
+    // set up default config for first time use
     if (component && !initialized && !existingConfig) {
       const initialConfig = {
         componentId,
