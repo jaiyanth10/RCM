@@ -8,17 +8,28 @@ const Page2: React.FC = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 relative">
         <h1 className="text-3xl font-bold">Page 2</h1>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-2 px-4 py-2 border border-black rounded hover:bg-gray-50"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
-          </svg>
-          Add Discussion
-        </button>
+        <div className="relative">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="flex items-center gap-2 px-4 py-2 border border-black rounded hover:bg-gray-50"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Add Discussion
+          </button>
+          {isModalOpen && (
+            <DiscussionModal
+              componentId="discussions"
+              pageId="page2"
+              onClose={() => setIsModalOpen(false)}
+              discussions={discussions}
+              setDiscussions={setDiscussions}
+            />
+          )}
+        </div>
       </div>
       <div className="mb-8 space-y-6">
         <section className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
@@ -72,16 +83,6 @@ const Page2: React.FC = () => {
           </div>
         </section>
       </div>
-      
-      {isModalOpen && (
-        <DiscussionModal
-          componentId="discussions"
-          pageId="page2"
-          onClose={() => setIsModalOpen(false)}
-          discussions={discussions}
-          setDiscussions={setDiscussions}
-        />
-      )}
     </div>
   );
 };
