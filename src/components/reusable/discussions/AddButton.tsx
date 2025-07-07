@@ -7,7 +7,7 @@ interface AddButtonProps {
 
 const AddButton: React.FC<AddButtonProps> = ({ 
   onClick, 
-  text = "Add Discussion" 
+  text = "Add " 
 }) => {
   return (
     <button

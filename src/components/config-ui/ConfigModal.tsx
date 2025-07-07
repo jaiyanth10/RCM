@@ -17,7 +17,7 @@ const ConfigModal: React.FC<ConfigModalProps> = ({ componentId, pageId, onClose 
     updateHeadingText,
     getHeadingText,
     getElementsToRender
-  } = useComponentConfig(componentId, pageId);  
+  } = useComponentConfig(componentId, pageId);
   const [selectedElement, setSelectedElement] = useState('');
   const [selectedPosition, setSelectedPosition] = useState('');
   const [editingHeadingId, setEditingHeadingId] = useState<string | null>(null);
@@ -29,7 +29,7 @@ const ConfigModal: React.FC<ConfigModalProps> = ({ componentId, pageId, onClose 
     toggleElement(elementId);
   };
 
-    const handleStartEditing = (elementId: string) => {
+  const handleStartEditing = (elementId: string) => {
     setEditingHeadingId(elementId);
     setEditTexts(prev => ({
       ...prev,
@@ -60,7 +60,7 @@ const ConfigModal: React.FC<ConfigModalProps> = ({ componentId, pageId, onClose 
 
   // Get all current elements in order
   const currentElements = getElementsToRender();
-console.log('Current Elements:', currentElements);
+  console.log('Current Elements:', currentElements);
   // Get the element name from its ID
   // const getElementName = (elementId: string) => {
   //   const baseId = elementId.includes('-') ? elementId.split('-')[0] : elementId;
@@ -80,91 +80,92 @@ console.log('Current Elements:', currentElements);
           </button>
         </div>
 
-        <div className="flex-grow overflow-y-auto">
+        <div className="flex flex-col flex-1 min-h-0">
           {/* Original and Additional Elements */}
-          <div className="space-y-3 mb-6">
-            {currentElements.map(elementId => (
-              <div key={elementId} className="flex items-center justify-between p-3 border rounded-md">
-                <div className="flex items-center gap-2 flex-grow">
-                  <span className="min-w-[100px]">{elementId}</span>
-                  {elementId.startsWith('heading') && (
-                    <div className="flex items-center gap-2 max-w-[200px]">
-                      {editingHeadingId === elementId ? (
-                        <>
-                          <input
-                            type="text"
-                            maxLength={40}
-                            className="w-full px-2 py-1 border rounded text-sm"
-                            value={editTexts[elementId] || ''}
-                            onChange={(e) => setEditTexts(prev => ({
-                              ...prev,
-                              [elementId]: e.target.value
-                            }))}
-                            autoFocus
-                          />
-                          <button
-                            className="text-green-600 hover:text-green-700 px-1"
-                            onClick={handleSaveHeading}
-                          >
-                            ✔
-                          </button>
-                          <button
-                            className="text-gray-400 hover:text-gray-600 px-1"
-                            onClick={handleCancelEditing}
-                          >
-                            ✖
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          <span className="text-gray-600 text-sm truncate">"{getHeadingText(elementId)}"</span>
-                          <button
-                            className="text-gray-400 hover:text-gray-600"
-                            onClick={() => handleStartEditing(elementId)}
-                          >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                            </svg>
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  )}
-                </div>
-                <div className="flex items-center gap-3">
-                  <label className="inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="sr-only peer"
-                      checked={isElementEnabled(elementId)}
-                      onChange={() => handleToggleElement(elementId)}
-                    />
-                    <div className={`relative w-11 h-6 rounded-full transition-all duration-200 ease-in-out
-                      ${isElementEnabled(elementId) ? 'bg-blue-500' : 'bg-gray-200'}`}>
-                      <div className={`absolute top-0.5 left-0.5 bg-white w-5 h-5 rounded-full shadow transform transition-transform duration-200 ease-in-out
-                        ${isElementEnabled(elementId) ? 'translate-x-5' : 'translate-x-0'}`}>
+          <div className="flex-1 overflow-y-auto mb-4">
+            <div className="space-y-3">
+              {currentElements.map(elementId => (
+                <div key={elementId} className="flex items-center justify-between p-3 border rounded-md">
+                  <div className="flex items-center gap-2 flex-grow">
+                    <span className="min-w-[100px]">{elementId}</span>
+                    {elementId.startsWith('heading') && (
+                      <div className="flex items-center gap-2 max-w-[200px]">
+                        {editingHeadingId === elementId ? (
+                          <>
+                            <input
+                              type="text"
+                              maxLength={40}
+                              className="w-full px-2 py-1 border rounded text-sm"
+                              value={editTexts[elementId] || ''}
+                              onChange={(e) => setEditTexts(prev => ({
+                                ...prev,
+                                [elementId]: e.target.value
+                              }))}
+                              autoFocus
+                            />
+                            <button
+                              className="text-green-600 hover:text-green-700 px-1"
+                              onClick={handleSaveHeading}
+                            >
+                              ✔
+                            </button>
+                            <button
+                              className="text-gray-400 hover:text-gray-600 px-1"
+                              onClick={handleCancelEditing}
+                            >
+                              ✖
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <span className="text-gray-600 text-sm truncate">"{getHeadingText(elementId)}"</span>
+                            <button
+                              className="text-gray-400 hover:text-gray-600"
+                              onClick={() => handleStartEditing(elementId)}
+                            >
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                              </svg>
+                            </button>
+                          </>
+                        )}
                       </div>
-                    </div>
-                  </label>
-                  {elementId.includes('-') && (
-                    <button
-                      className="text-gray-400 hover:text-red-500"
-                      onClick={() => removeElement(elementId)}
-                    >
-                      ✖
-                    </button>
-                  )}
+                    )}
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <label className="inline-flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        className="sr-only peer"
+                        checked={isElementEnabled(elementId)}
+                        onChange={() => handleToggleElement(elementId)}
+                      />
+                      <div className={`relative w-11 h-6 rounded-full transition-all duration-200 ease-in-out
+                      ${isElementEnabled(elementId) ? 'bg-blue-500' : 'bg-gray-200'}`}>
+                        <div className={`absolute top-0.5 left-0.5 bg-white w-5 h-5 rounded-full shadow transform transition-transform duration-200 ease-in-out
+                        ${isElementEnabled(elementId) ? 'translate-x-5' : 'translate-x-0'}`}>
+                        </div>
+                      </div>
+                    </label>
+                    {elementId.includes('-') && (
+                      <button
+                        className="text-gray-400 hover:text-red-500"
+                        onClick={() => removeElement(elementId)}
+                      >
+                        ✖
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           {/* Add New Element Section */}
-          <div className="border-t pt-4">
+          <div className="mt-auto">
             <h3 className="font-medium mb-3">Add New Element</h3>
             <div className="space-y-3">
               <div>
-                <label className="block text-sm mb-1">Element Type</label>
                 <select
                   className="w-full p-2 border rounded"
                   value={selectedElement}
@@ -178,25 +179,22 @@ console.log('Current Elements:', currentElements);
                   ))}
                 </select>
               </div>
-
               <div>
-                <label className="block text-sm mb-1">Position After</label>
                 <select
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded [&>option]:py-2 [&>option]:px-2"
                   value={selectedPosition}
                   onChange={(e) => setSelectedPosition(e.target.value)}
+                  size={4}
+                  style={{ maxHeight: '120px' }}
                 >
-                  <option value="">Select position...</option>
+                  <option value="" className='sticky '>Select position...</option>
                   {currentElements.map(elementId => (
                     <option key={elementId} value={elementId}>
-                      {/* After {getElementName(elementId)} ({elementId}) */}
                       After ({elementId})
-
                     </option>
                   ))}
                 </select>
               </div>
-
               <button
                 className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleAddElement}

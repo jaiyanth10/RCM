@@ -14,7 +14,7 @@ interface DiscussionsListProps {
 const DiscussionsList: React.FC<DiscussionsListProps> = ({ discussions, onDelete }) => {
   if (discussions.length === 0) {
     return (
-      <div className="p-4 text-gray-500 text-center border rounded-md">
+      <div className="p-4 text-gray-500 text-center border rounded-md max-h-32 overflow-y-auto">
         No discussions yet. Add one above!
       </div>
     );

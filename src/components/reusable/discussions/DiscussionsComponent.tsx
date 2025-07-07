@@ -10,15 +10,18 @@ export interface DiscussionsComponentProps {
   componentId: string;
   pageId: string;
   title?: string;
+  discussions: Discussion[];
+  setDiscussions: React.Dispatch<React.SetStateAction<Discussion[]>>;
 }
 
 const DiscussionsComponent: React.FC<DiscussionsComponentProps> = ({ 
   componentId,
   pageId,
-  title = "Discussions" 
+  title = "Discussions",
+  discussions,
+  setDiscussions
 }) => {
   const [discussionText, setDiscussionText] = useState('');
-  const [discussions, setDiscussions] = useState<Discussion[]>([]);
   const { 
     isElementEnabled, 
     getHeadingText, 
@@ -28,13 +31,11 @@ const DiscussionsComponent: React.FC<DiscussionsComponentProps> = ({
 
   const handleAddDiscussion = () => {
     if (!discussionText.trim()) return;
-    
     const newDiscussion: Discussion = {
       id: uuidv4(),
       text: discussionText,
       timestamp: Date.now()
     };
-    
     setDiscussions([...discussions, newDiscussion]);
     setDiscussionText('');
   };
@@ -43,11 +44,11 @@ const DiscussionsComponent: React.FC<DiscussionsComponentProps> = ({
     setDiscussions(discussions.filter(d => d.id !== id));
   };
 
-  // create and show a piece of the discussion component
+  // Render a specific element by ID
   const renderElement = (elementId: string, index: number) => {
     if (!isElementEnabled(elementId)) return null;
     
-    // strip any numbers from id (heading-1 -> heading)
+    // Extract the base element type from the ID (e.g., "heading-1" -> "heading")
     const elementType = elementId.includes('-') 
       ? elementId.split('-')[0] 
       : elementId;
@@ -94,8 +95,29 @@ const DiscussionsComponent: React.FC<DiscussionsComponentProps> = ({
   const elementsToRender = getElementsToRender();
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md">
-      {elementsToRender.map((elementId, index) => renderElement(elementId, index))}
+    <div className="flex flex-col gap-4 p-2 bg-white rounded-lg shadow-sm w-full max-w-xl mx-auto border border-gray-200">
+      {elementsToRender.map((elementId, index) => {
+        if (elementId.startsWith('heading')) {
+          return (
+            <div key={elementId + '-' + index} className="text-left">
+              {renderElement(elementId, index)}
+            </div>
+          );
+        }
+        if (elementId.startsWith('addButton')) {
+          return (
+            <div key={elementId + '-' + index} className="flex justify-end">
+              {renderElement(elementId, index)}
+            </div>
+          );
+        }
+        return (
+          <div key={elementId + '-' + index}
+            className="w-full">
+            {renderElement(elementId, index)}
+          </div>
+        );
+      })}
     </div>
   );
 };
