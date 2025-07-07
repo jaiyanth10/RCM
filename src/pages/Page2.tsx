@@ -34,7 +34,7 @@ const Page2: React.FC = () => {
       <div className="mb-8 space-y-6">
         <section className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h2 className="text-2xl font-semibold mb-4">Avoiding Prop Drilling in React</h2>
-          <p className="mb-4 text-gray-700">Prop drilling occurs when props need to be passed through multiple levels of components that don't need those props themselves. Here's how to handle it:</p>
+          <p className="mb-4 text-gray-700">Prop drilling occurs when props are passed through multiple components that don't need those props themselves. Here's how to handle it:</p>
 
           <div className="bg-orange-50 p-4 rounded-md mb-6">
             <h3 className="text-lg font-medium mb-2 text-orange-900">The Problem</h3>
