@@ -49,21 +49,21 @@ const Page2: React.FC = () => {
           <div className="grid md:grid-cols-2 gap-6 mb-6">
             <div className="bg-purple-50 p-4 rounded-md">
               <h3 className="text-lg font-medium mb-2 text-purple-900">Solutions</h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700">
-                <li>Context API</li>
-                <li>State Management (Redux/Zustand)</li>
-                <li>Composition Patterns</li>
-                <li>Custom Hooks</li>
+              <ul className="space-y-2 text-gray-700">
+                <li className="pl-0">Context API</li>
+                <li className="pl-0">State Management (Redux/Zustand)</li>
+                <li className="pl-0">Composition Patterns</li>
+                <li className="pl-0">Custom Hooks</li>
               </ul>
             </div>
 
             <div className="bg-teal-50 p-4 rounded-md">
               <h3 className="text-lg font-medium mb-2 text-teal-900">Benefits</h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700">
-                <li>Cleaner component tree</li>
-                <li>Better maintainability</li>
-                <li>Improved performance</li>
-                <li>Easier testing</li>
+              <ul className="space-y-2 text-gray-700">
+                <li className="pl-0">Cleaner component tree</li>
+                <li className="pl-0">Better maintainability</li>
+                <li className="pl-0">Improved performance</li>
+                <li className="pl-0">Easier testing</li>
               </ul>
             </div>
           </div>

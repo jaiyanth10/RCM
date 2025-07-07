@@ -39,21 +39,21 @@ const Page1: React.FC = () => {
           <div className="grid md:grid-cols-2 gap-6 mb-6">
             <div className="bg-blue-50 p-4 rounded-md">
               <h3 className="text-lg font-medium mb-2 text-blue-900">Key Benefits</h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700">
-                <li>Reduced code duplication</li>
-                <li>Easier maintenance</li>
-                <li>Consistent UI/UX</li>
-                <li>Faster development</li>
-              </ul>
+                <ul className="space-y-2 text-gray-700">
+                <li className="pl-0">Reduced code duplication</li>
+                <li className="pl-0">Easier maintenance</li>
+                <li className="pl-0">Consistent UI/UX</li>
+                <li className="pl-0">Faster development</li>
+                </ul>
             </div>
             
             <div className="bg-green-50 p-4 rounded-md">
               <h3 className="text-lg font-medium mb-2 text-green-900">Best Practices</h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700">
-                <li>Keep components small and focused</li>
-                <li>Use proper prop interfaces</li>
-                <li>Implement composition patterns</li>
-                <li>Follow DRY principles</li>
+              <ul className="space-y-2 text-gray-700">
+              <li className="pl-0">Keep components small and focused</li>
+              <li className="pl-0">Use proper prop interfaces</li>
+              <li className="pl-0">Implement composition patterns</li>
+              <li className="pl-0">Follow DRY principles</li>
               </ul>
             </div>
           </div>
