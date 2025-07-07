@@ -17,7 +17,8 @@ const ConfigModal: React.FC<ConfigModalProps> = ({ componentId, pageId, onClose 
     updateHeadingText,
     getHeadingText,
     getElementsToRender
-  } = useComponentConfig(componentId, pageId);  const [selectedElement, setSelectedElement] = useState('');
+  } = useComponentConfig(componentId, pageId);  
+  const [selectedElement, setSelectedElement] = useState('');
   const [selectedPosition, setSelectedPosition] = useState('');
   const [editingHeadingId, setEditingHeadingId] = useState<string | null>(null);
   const [editTexts, setEditTexts] = useState<Record<string, string>>({});
@@ -59,12 +60,12 @@ const ConfigModal: React.FC<ConfigModalProps> = ({ componentId, pageId, onClose 
 
   // Get all current elements in order
   const currentElements = getElementsToRender();
-
+console.log('Current Elements:', currentElements);
   // Get the element name from its ID
-  const getElementName = (elementId: string) => {
-    const baseId = elementId.includes('-') ? elementId.split('-')[0] : elementId;
-    return component.elements.find(e => e.id === baseId)?.name || '';
-  };
+  // const getElementName = (elementId: string) => {
+  //   const baseId = elementId.includes('-') ? elementId.split('-')[0] : elementId;
+  //   return component.elements.find(e => e.id === baseId)?.name || '';
+  // };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm">
@@ -85,7 +86,7 @@ const ConfigModal: React.FC<ConfigModalProps> = ({ componentId, pageId, onClose 
             {currentElements.map(elementId => (
               <div key={elementId} className="flex items-center justify-between p-3 border rounded-md">
                 <div className="flex items-center gap-2 flex-grow">
-                  <span className="min-w-[100px]">{getElementName(elementId)}</span>
+                  <span className="min-w-[100px]">{elementId}</span>
                   {elementId.startsWith('heading') && (
                     <div className="flex items-center gap-2 max-w-[200px]">
                       {editingHeadingId === elementId ? (
