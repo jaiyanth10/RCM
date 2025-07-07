@@ -61,7 +61,7 @@ const Page1: React.FC = () => {
             </div>
           </div>
 
-          <p className="text-gray-600">Explore our component registry to see reusability in action!</p>
+          {/* <p className="text-gray-600">Explore our component registry to see reusability in action!</p> */}
         </section>
       </div>
       
